@@ -1,0 +1,556 @@
+/*
+Theme Name: Zero dechet
+Description: Child theme
+Author: SEWIP
+Author URI: https://www.sewip.com
+Template: uncode
+Version: 1.0.0
+Text Domain: uncode
+*/
+
+
+/* lien BOUTIQUE */
+@media (min-width: 960px){
+    #menu-secondary-menu li a {
+        font-family: Poppins, 'Mulish',sans-serif;
+        color: #303133 !important;
+        letter-spacing: 0.2em;      
+    }
+}
+
+/* recette-zero-dechet */
+#recette-zero-dechet ul li a {
+    padding: 0px 0 0px 24px;
+    font-family: 'Mulish',sans-serif, 'Mulish',sans-serif;
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight:600;
+    line-height: 1.2em;    
+    /*letter-spacing: 0.05em;*/
+    letter-spacing: 0.8px;
+}
+#recette-zero-dechet ul li a:hover {
+    text-decoration:underline;
+}
+@media (min-width: 960px) and (max-width: 120px) {
+    .la-recette .row.limit-width.row-parent {
+        padding-left:30px!important;
+    }
+   /* .main-container .la-recette.row-container .row-parent {
+        padding: 36px 36px 36px 60px!important;
+    }*/
+}
+
+
+/* home */
+.counter5r .counter-text p{
+    font-size:18px;
+}
+
+body{
+    font-family: 'Mulish',sans-serif !important;
+    font-weight:400;
+}
+strong{
+    font-weight:700;
+}
+
+.page-body a{
+    text-decoration:underline;  
+}
+.t-entry-title a, .menu-smart a, .col-widgets-sidebar a {
+    text-decoration:none;
+}
+p a, p a:hover{
+    text-decoration:underline;
+    color:#000;
+}
+ul li, ol li{
+    letter-spacing:0.8px;
+}
+
+/* PAGE définitions */
+#glossaryList-nav{
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+#glossaryList-nav .ln-letters a{
+    font-size: 0.9em;
+    font-weight: 400;
+    padding: 12px 14px;
+    cursor:pointer;
+}
+#glossaryList-nav .ln-letters a:hover{
+    background:#000;
+    color:#fff;
+}
+#glossaryList-nav .ln-letters a.ln-disabled{
+    cursor:default;
+    background:#fff;
+    color: #ccc;
+}
+#glossaryList li a{
+    display:inline-block;
+    width:100%;
+}
+#glossaryList li{
+    list-style-type: none;
+    line-height: 2.2;
+    padding-left:0;
+    transition: all 1s ease-out;
+}
+#glossaryList li:hover{
+    background:#f1f1f1;
+    padding-left: 2%;
+    transition: all 1s ease-out;
+}
+#glossaryList li:hover a{
+    color:#000;
+    transition: all 1s ease-out;
+}
+span.glossaryLink, a.glossaryLink {
+    text-decoration: none !important;
+    border-bottom: none !important;
+    font-size:20px;
+}
+.slide-new-definition .t-entry-readmore{
+    text-align:center;
+}
+.slide-new-definition {
+    margin-top: 40px !important;
+}
+
+
+/* Définition post dédié */
+.glossary-template-default .col-widgets-sidebar aside ul li{
+    padding-left:0;
+    margin-bottom:15px;
+}
+.glossary-template-default .col-widgets-sidebar aside ul li:before{
+    content:'';
+}
+.glossary-template-default .col-widgets-sidebar aside ul li a:hover{
+    text-decoration:underline;
+}
+
+
+/* navigation dans les articles, définitions, etc */
+.row-navigation .btn-container a{
+    color:#eaeaea;
+    
+}
+.row-navigation .btn-container a:hover{
+    color:#fff;
+}
+.nav-back .btn{
+    font-weight:300 !important;
+    letter-spacing:1.2px;
+}
+
+
+
+/* lISTINGS de type Blog : diy, lifestyle */
+.listing-blog .tmb-light.tmb .t-entry-text{
+    min-height:200px;
+}
+.listing-blog .tmb-light.tmb .t-entry-text .t-entry-title{
+    min-height:45px;
+}
+
+
+.post-wrapper .post-footer.post-footer-dark{
+    border-color:#eaeaea;
+}
+
+/* "vous aimerez aussi" en bas des articles */
+.tmb-entry-title-capitalize.tmb .t-entry .t-entry-title {
+    text-transform: none;
+}
+.post-after .single-block-padding {
+    min-height:121px;
+}
+
+/* FOOTER */
+footer .site-info a{
+    text-decoration:none;
+}
+
+/* LANDING PAGE zero dechet */
+/*#zero-dechet-definition .text-lead p{
+    color:#f7f7f7;
+    font-weight:300;
+    font-size: 15px;
+}
+#zero-dechet-definition .double-block-padding {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+*/
+.zd-title-dark-block .text-lead p{
+    color:#f7f7f7;
+    font-weight:300;
+    font-size: 15px;
+}
+.zd-title-dark-block .double-block-padding {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+
+.title-5r{
+    /* réduire padding-top en responsive */
+}
+.links-5r .boomapps_vccolumn:hover div{
+    background-color: #f7f7f7;
+}
+
+
+/* page FOOD */
+@media (min-width: 960px){
+    .accessoires-food .heading-text.el-text{
+        padding-top:15px;
+    }
+}
+@media (min-width: 1023px) AND (max-width: 1024px) {
+    .infos-recette .single-block-padding {
+        width:300px;
+        padding: 36px 5px 36px 15px;
+    }
+    .infos-recette .fa-fw {
+        width: 0.12em;
+    }
+}
+
+.accessoires-food .heading-text.el-text a{
+    color: #777777 !important;
+}
+.accessoires-food figcaption{
+    padding-top:12px;
+}
+.food-titres .titre-h1{
+    margin-top:5px!important;
+}
+.food-titres .food-text{
+    margin-top: 15px!important;
+}
+
+.ingredients .heading-text{
+    margin-bottom:30px;
+}
+.ingredients .icon-box.icon-box-left.icon-media-image{
+    margin-top: 10px !important;
+}
+.ingredients .icon-box-content{
+    padding-top:20px;
+}
+.ingredients .icon-box-content p{
+    font-size: 13px;
+}
+
+
+.preparation ol {
+    margin-top: 0px!important;
+    font-weight: bold!important;
+    counter-reset: grandnum;
+    font-style: italic!important;
+    margin-bottom: 30px;
+    padding-left: 30px;
+  }
+
+  .preparation ol li {
+    font-size: 16px!important;
+    font-weight: 400!important;
+    line-height: 21px!important;
+    font-style: normal!important;
+    letter-spacing: 0.5px!important;
+    margin-bottom: 24px!important;
+    list-style-type: none;
+    counter-increment: grandnum;
+    padding-left:0;
+    margin-left:0;
+    display: block;
+  }
+  .preparation ol li:before {
+    display: block;
+    position: absolute;
+    left:0;
+    margin-top:-3px;      
+      background:#303133;
+      color:#fff;
+      border-radius:15px;
+      font-size: 16px;
+      font-weight: bold;
+      content: counter(grandnum);
+      padding: 5px 10px;
+      vertical-align: top;
+
+}
+
+
+
+
+/* Homepage */
+.hometextmini p, .hometextmini li {
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 5px 0 0;    
+}
+.homecompteurs .counter-suffix{
+    padding-left:5px;
+    font-size:22px;
+}
+.homecompteurs .heading-text.el-text h3 span{
+    font-weight:500!important;
+}
+.homesource1{
+    margin-top: 5px!important;
+}
+.homesource1 p{
+    font-size:11px;
+}
+.home-space-titres h3{
+    padding-top:7px;
+    padding-bottom:10px;
+}
+
+/* ARTICLE pages dédiées*/
+.article-legende-image p{
+    font-size:13px;
+}
+.share-button.share-inline .social.top li.social-xing, .share-button.share-inline .social.top li.social-paper-plane{
+    display:none!important;
+}
+
+
+
+/* LANDING PAGE Noel */
+.noel-img-product{
+
+}
+.noel-title-product p{
+    font-size: 13px;
+    line-height: 1.4;
+    letter-spacing: 0.8px;
+}
+.noel-title-product p strong{
+    line-height: 2;
+    letter-spacing: 0.4px;
+    color: #000;
+}
+.number-price .heading-text div{
+    background:#fff;
+    border-radius:90px;
+    padding: 42px 30px;
+}
+.number-price .heading-text span{
+    font-size:50px;
+    font-weight:300;
+}
+.noel-menu-ancres .row-inner .wpb_column {
+    padding: 15px 0px 0px 15px !important;
+}
+.noel-menu-ancres .row-inner .wpb_column .uncell{
+    padding-left:7px;
+    padding-right:7px;
+    min-height:108px;
+    max-height:108px!important;
+}
+.noel-menu-ancres .row-inner .wpb_column .uncell p strong{
+    color: #31675e !important;
+    font-weight:400;
+    font-size:30px;
+}
+
+.noel-menu-ancres .row-inner .wpb_column:hover .uncell p{
+    color:#fff!important;
+}
+.noel-menu-ancres .row-inner .wpb_column:hover .uncell p strong{
+    color:#fff!important;
+}
+.noel-menu-ancres .row-inner .wpb_column:hover .uncell{
+    background:#9b4a54;
+}
+
+/*
+.noel-menu-ancres .row-inner .wpb_column.noel-menu-ancres-minute .uncell {
+    padding-top:30px;
+    padding-bottom:30px;
+}*/
+
+
+
+
+/* PAGE Contact */
+.style-dark input, .style-dark textarea{
+    border:1px solid #dddddd!important;
+    border-color: #dddddd;
+    background:#fff;
+    width: 100% !important;
+}
+.no-largeur input{
+    width: inherit!important;
+}
+.color-captcha{
+    color:#ccc!important;
+}
+.form-fluid input {
+    
+}
+.btn-contact-page{
+    margin:0 auto;
+}
+
+
+/* Lifestyle homepage fixer decalage */
+body.home .ligne-life-2 .row-inner{
+    display:none;
+}
+body.home .ligne-life-2 .wpb_row.row-inner{
+    display:inherit;
+}
+
+/* Sidebar colonne de droite */
+.col-widgets-sidebar .widget-title, .col-widgets-sidebar aside li, .col-widgets-sidebar p, .col-widgets-sidebar a{
+    font-size:15px;
+    letter-spacing:0.8px;
+}
+
+
+.heading-text a, .btn-container a{
+    text-decoration:none;
+}
+
+
+.cookiebutton{
+    color: #000 !important;
+    background: #fff !important;
+}
+
+/*** RESPONSIVE PART ***/
+@media (max-width: 1024px){
+    h4:not([class*="fontsize-"]), .home .h4:not([class*="fontsize-"]) {
+        font-size: 16px;
+    }    
+}
+
+@media (min-width: 960px) and (max-width: 1024px){
+    .food-5{
+        padding: 0px 0px 0px 6px!important;
+    }
+}
+@media (max-width: 1023px){ /* 959px */
+    .noel-decor-top .uncoltable {
+        min-height:inherit!important;
+        max-height:100px!important;
+        height: 100px!important;
+    }
+     .noel-decor-bottom {
+        min-height:inherit!important;
+        max-height:30px!important;
+        height: 30px!important;
+    }    
+}
+@media (max-width: 425px){ 
+    .noel-text-intro .uncell{
+        padding-left: 15px!important;
+        padding-right: 15px!important;
+    }
+    .noel-text-intro .single-h-padding {
+        padding-left: 0!important;
+        padding-right: 0!important;
+    }
+
+}
+/*
+@media (max-width: 767px){ 
+
+}
+.food-titre{
+
+}
+*/
+
+
+/* responsive part landing page ZERO DECHET */
+@media (max-width: 1025px){
+    body.page-id-83383 #zero-dechet {
+        padding-top:45px;
+    }
+    body.page-id-83383 #qu-est-ce-que-le-zero-dechet{
+        padding-bottom:45px;
+    }
+    #les-5-r .double-h-padding{
+        padding-left: 15px!important;
+        padding-right: 15px!important;
+    }
+    #les-5-r .links-5r .wpb_column {
+        padding: 0px 0px 0px 26px;
+    }    
+    #les-5-r .links-5r .uncode_text_column p {
+        font-size: 14px;
+        line-height: 1.6;
+    }
+    .pzd-chapeau-1{
+
+    }
+    .pzd-chapeau-2 .row-parent{
+        padding-top: 0!important;
+    }
+    .pzd-chapeau-2 .col-lg-6:first-child{
+       display:none;
+    }
+    .pzd-chapeau-2 .col-lg-6{
+        width: 100%!important;
+    }
+    #vivre-sans-dechet h3{
+        font-size: 33.333333333333px;
+    }
+    .blocktop-5r{
+        margin-bottom:45px;
+    }
+    .blocktop-5r .uncont {
+        margin-top: 0!important;
+    }
+    .blocktop-5r .vc_custom_heading_wrap {
+        margin-top: 0!important;
+    }
+    #les-5-r .uncode_text_column{
+        margin-top: 0!important;
+    }
+    #les-5-r .double-bottom-padding {
+        padding-bottom: 20px!important;
+    }
+
+    .heading-text.el-text#vivre-sans-dechet{
+        margin-top:30px!important;
+    }
+
+    .pzd-row-mais-ext .quad-top-padding {
+        padding-top: 15px!important;
+    }
+    .pzd-col-maison{
+
+    }
+    .pzd-col-exterieur{
+        margin-top:60px!important;
+    }
+
+    .pzd-decor-essentiels{
+        height:200px!important;
+    }
+
+    .pzd-col-question .single-block-padding {
+        padding: 20px;
+    }
+
+    .pzd-col-question .single-block-padding h2.h2{
+        font-size: 28px;
+    }
+
+}
+
+@media (max-width: 768px){
+    .pzd-decor-essentiels{
+        max-height:160px!important;
+    }
+}
