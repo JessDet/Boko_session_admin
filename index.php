@@ -18,21 +18,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $statementAdmin->bindValue(':pseudo', $pseudo);
         $statementAdmin->execute();
         $admin = $statementAdmin->fetch();
-}
+    }
 
-if ($admin && password_verify($password, $admin['password'])) {
-    $statementSessionadmin = $pdo->prepare('INSERT INTO sessionadmin VALUES (default, :adminid');
-    $statementSessionadmin->bindValue(':adminid', $admin['id']);
-    $statementSessionadmin->execute();
-    $sessionadminId = $pdo->lastInsertId();
-    setcookie('sessionadmin',$sessionadminId, time() + 60 * 3, '', '', false, true);
-    header('Location: /Admin_recettes.php');
-}else {
-    echo "Pseudo ou Password incorrect";
-}
-
-
-
+    if ($admin && password_verify($password, $admin['password'])) {
+        header('Location: /Admin_recettes.php');
+    } else {
+        echo "Pseudo ou Password incorrect";
+    }
 }
 ?>
 
@@ -41,6 +33,7 @@ if ($admin && password_verify($password, $admin['password'])) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -49,24 +42,26 @@ if ($admin && password_verify($password, $admin['password'])) {
     <link rel="stylesheet" href="/CSS/Header-Footer.css">
     <title>Connexion</title>
 </head>
+
 <body>
-<!-- <?php require_once'includes/header.php' ?> -->
+    <!-- <?php require_once 'includes/header.php' ?> -->
 
-<div class="container" id="container">
-	<div class="form-container sign-in-container">
-        <form class="connexion_admin" action="/index.php" method="POST">
-			<h1>Admin</h1>
-                
-                    <input type="text" name="pseudo" id="pseudo" placeholder="pseudo">
-                    <input type="password" name="password" id="password" placeholder="password">
-                    <button>Connexion</button>
-          
-		</form>
-	</div>
-    
-</div>	
+    <div class="container" id="container">
+        <div class="form-container sign-in-container">
+            <form class="connexion_admin" action="/index.php" method="POST">
+                <h1>Admin</h1>
+
+                <input type="text" name="pseudo" id="pseudo" placeholder="pseudo">
+                <input type="password" name="password" id="password" placeholder="password">
+                <button>Connexion</button>
+
+            </form>
+        </div>
+
+    </div>
 
 
-<!-- <?php require_once'includes/footer.php' ?> -->
+    <!-- <?php require_once 'includes/footer.php' ?> -->
 </body>
+
 </html>
