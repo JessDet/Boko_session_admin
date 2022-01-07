@@ -33,36 +33,6 @@ if ($admin && password_verify($password, $admin['password'])) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-// if (isset($_POST['connexion'])) {
-//     if(!empty($_POST['pseudo']) && !empty($_POST['password'])) {
-        
-//         $pseudo_saisi = htmlspecialchars($_POST ['pseudo']);
-//         $password_saisi = htmlspecialchars($_POST ['password']);
-
-//         if($pseudo == $_POST ['pseudo'] && $password == $_POST ['password']) {
-//             $_SERVER['password'] = $password;
-//             header('Location: ./Admin_recettes.php');
-//         } else {
-//             echo "Votre pseudo et/ou password est incorrect";
-//         }
-//     } else {
-//         echo "Veuillez compléter tous les champs";
-//     }
-// }
-
 }
 ?>
 

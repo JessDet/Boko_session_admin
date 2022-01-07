@@ -16,7 +16,8 @@ INSERT INTO recettes(
     image) VALUES (
         :titre,
         :descriptif,
-        :image
+        :image1,
+        :categorie
         )
 ');
 
@@ -25,7 +26,8 @@ $statementUpdate = $pdo->prepare('
     SET
     titre=:titre,
     descriptif=:descriptif,
-    image=:image
+    image1=:image1,
+    categorie=:categorie
     WHERE idarticle=:id
 ');
 
@@ -34,7 +36,8 @@ $statementRead = $pdo->prepare('SELECT * FROM recettes WHERE idrecette=:id');
 $errors = [
     'titre' => '',
     'descriptif' => '',
-    'image' => ''
+    'image1' => '',
+    'categorie' => ''
     ];
 
 $_GET = filter_input_array(INPUT_GET, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -46,7 +49,8 @@ if ($id) {
     $recettes = $statementRead->fetch();
         $titre = $recettes['titre'];
         $descriptif = $recettes['descriptif'];
-        $image = $recettes['image'];
+        $image1 = $recettes['image1'];
+        $categorie = $recettes['categorie'];
 }
 
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
@@ -56,13 +60,15 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             'filter' => FILTER_SANITIZE_STRING,
             'flags' => FILTER_FLAG_NO_ENCODE_QUOTES
         ],
-        'image' => FILTER_SANITIZE_URL
+        'image' => FILTER_SANITIZE_URL,
+        'categorie' => FILTER_SANITIZE_STRING,
         ]);
 }
 
 $titre = $_POST['titre'] ?? '';
 $descriptif = $_POST['descriptif'] ?? '';
-$image = $_POST['image'] ?? '';
+$image1 = $_POST['image1'] ?? '';
+$categorie = $_POST['categorie'] ?? '';
 
 if (!$titre) {
     $errors['titre'] = ERR_REQUIRED;
@@ -76,25 +82,33 @@ if (!$descriptif) {
     $errors['descriptif'] = ERR_CONTENT_SHORT;
 }
 
-if (!$image) {
-    $errors['image'] = ERR_REQUIRED;
-} else if (!filter_var($image, FILTER_VALIDATE_URL)) {
-    $errors['image'] = ERR_URL;
+if (!$image1) {
+    $errors['image1'] = ERR_REQUIRED;
+} else if (!filter_var($image1, FILTER_VALIDATE_URL)) {
+    $errors['image1'] = ERR_URL;
+
+
+if (!$categorie) {
+    $errors['categorie'] = ERR_REQUIRED;
+}
 
 
 if(empty(array_filter($errors, fn ($e) => $e !== ''))){
     $recettes['titre'] = $titre;
     $recettes['descriptif'] = $descriptif;
-    $recettes['image'] = $image;
+    $recettes['image1'] = $image1;
+    $recettes['categorie'] = $categorie;
     $statementUpdate->bindValue(':titre', $recettes['titre']);
     $statementUpdate->bindValue(':descriptif', $recettes['descriptif']);
-    $statementUpdate->bindValue(':image', $recettes['image']);
+    $statementUpdate->bindValue(':image1', $recettes['image1']);
+    $statementUpdate->bindValue(':categorie', $recettes['categorie']);
     $statementUpdate->bindValue(':id', $id);
     $statementUpdate->execute();
 }else {
     $statementCreate->bindValue(':titre', $titre);
     $statementCreate->bindValue(':descriptif', $descriptif);
-    $statementCreate->bindValue(':image', $image);
+    $statementCreate->bindValue(':image1', $image1);
+    $statementCreate->bindValue(':categorie', $categorie);
     $statementCreate->execute();
 }
 header('Location: /');
@@ -114,28 +128,47 @@ header('Location: /');
     <title>Document</title>
 </head>
 <body>
-<?php require_once'includes/header.php' ?>
+<!-- <?php require_once'includes/header.php' ?> -->
 
   <h1>ESPACE ADMIN</h1>
 
   <div class="container">
       <div class="form_container">
-          <form action="/Admin_recettes.php" methode="POST">
+          <form action="/Admin_recettes.php" <?= $id ? "id=$id" : '' ?> methode="POST">
               <div class="form_control">
                   <label for="title">Titre</label>
-                  <input type="text" name="titre" id="title" placeholder="title" value="">
-                  <p class="text_error"></p>
+                  <input type="text" name="titre" id="title" placeholder="title" value=" <?= $titre ?? '' ?>">
+                  <p class="text_error"><?= $errors['titre'] ?></p>
               </div>
+
               <div class="form_control">
                   <label for="title">Descriptif</label>
-                  <input type="text" name="descriptif" id="descriptif" placeholder="description" value="">
-                  <p class="text_error"></p>
+                  <input type="text" name="descriptif" id="descriptif" placeholder="description" value="<?= $description ?? '' ?>">
+                  <p class="text_error"<?= $errors['titre'] ?>></p>
               </div>
+
               <div class="form_control">
-                  <label for="title">Image</label>
-                  <input type="text" name="image" id="image" placeholder="image" value="">
-                  <p class="text_error"></p>
+                  <label for="title">Image1</label>
+                  <input type="text" name="image1" id="image1" placeholder="image1" value="<?= $image1 ?? '' ?>">
+                  <p class="text_error"><?= $errors['image1'] ?></p>
               </div>
+              
+              </div>
+
+              <div class="form-control">
+                        <label for="category">Catégorie</label>
+                        <select name="categorie" id="categorie">
+                        <option <?= !$categorie || $categorie ==="cuisine" ? 'selected' : '' ?> value="cuisine">Cuisine</option>
+                        <option <?= $categorie ==="cosmetique" ? 'selected' : '' ?> value="cosmetique">Cosmetiques</option>
+                        <option  <?= $categorie ==="maison" ? 'selected' : '' ?> value="maison">Maison</option>
+                       </select>
+                        <p class="text-error"><?= $errors['categorie']?></p>
+                    </div>
+
+                    <div class="form-action">
+                        <a href="/" class="btn btn-secondary" type="button">Annuler</a>
+                        <button class="btn btn-primary"><?= $id ? 'Modifier' : 'Sauvegarder' ?></button>
+                    </div>
 
           </form>
       </div>
@@ -148,6 +181,6 @@ header('Location: /');
 
 
 
-<?php require_once'includes/footer.php' ?>
+
 </body>
 </html>
