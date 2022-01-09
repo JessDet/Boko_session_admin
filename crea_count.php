@@ -49,7 +49,7 @@ if (!$pseudo || !$password) {
     <title>Crea_Count</title>
 </head>
 <body>
-<?php require_once'includes/header.php' ?>
+
     
 
 <div class="container" id="container">
@@ -68,7 +68,7 @@ if (!$pseudo || !$password) {
 		</form>
 	</div>
     </div>
-    <?php require_once'includes/footer.php' ?>
+    
 </body>
 
 </html>

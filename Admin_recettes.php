@@ -78,7 +78,7 @@ if (!$titre) {
 
 if (!$descriptif) {
     $errors['descriptif'] = ERR_REQUIRED;
-} else if (mb_strlen($descriptif) < 50) {
+} else if (mb_strlen($descriptif) < 15) {
     $errors['descriptif'] = ERR_CONTENT_SHORT;
 }
 
@@ -128,7 +128,6 @@ header('Location: /');
     <title>Document</title>
 </head>
 <body>
-<!-- <?php require_once'includes/header.php' ?> -->
 
   <h1>ESPACE ADMIN</h1>
 
@@ -153,23 +152,23 @@ header('Location: /');
                   <p class="text_error"><?= $errors['image1'] ?></p>
               </div>
               
-              </div>
+              
 
               <div class="form-control">
-                        <label for="category">Catégorie</label>
-                        <select name="categorie" id="categorie">
-                        <option <?= !$categorie || $categorie ==="cuisine" ? 'selected' : '' ?> value="cuisine">Cuisine</option>
-                        <option <?= $categorie ==="cosmetique" ? 'selected' : '' ?> value="cosmetique">Cosmetiques</option>
-                        <option  <?= $categorie ==="maison" ? 'selected' : '' ?> value="maison">Maison</option>
-                       </select>
-                        <p class="text-error"><?= $errors['categorie']?></p>
-                    </div>
+                    <label for="category">Catégorie</label>
+                    <select name="categorie" id="categorie">
+                    <option <?= !$categorie || $categorie ==="cuisine" ? 'selected' : '' ?> value="cuisine">Cuisine</option>
+                    <option <?= $categorie ==="cosmetique" ? 'selected' : '' ?> value="cosmetique">Cosmetiques</option>
+                    <option  <?= $categorie ==="maison" ? 'selected' : '' ?> value="maison">Maison</option>
+                    </select>
+                    <p class="text-error"><?= $errors['categorie']?></p>
+                </div>
 
-                    <div class="form-action">
-                        <a href="/" class="btn btn-secondary" type="button">Annuler</a>
-                        <button class="btn btn-primary"><?= $id ? 'Modifier' : 'Sauvegarder' ?></button>
-                    </div>
-
+                <div class="form-action">
+                    <a href="/" class="btn btn-secondary" type="button">Annuler</a>
+                    <button class="btn btn-primary"><?= $id ? 'Modifier' : 'Sauvegarder' ?></button>
+                </div>
+                </div>
           </form>
       </div>
 

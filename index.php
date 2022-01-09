@@ -21,12 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 if ($admin && password_verify($password, $admin['password'])) {
-    $statementSessionadmin = $pdo->prepare('INSERT INTO sessionadmin VALUES (default, :adminid');
-    $statementSessionadmin->bindValue(':adminid', $admin['id']);
-    $statementSessionadmin->execute();
-    $sessionadminId = $pdo->lastInsertId();
-    setcookie('sessionadmin',$sessionadminId, time() + 60 * 3, '', '', false, true);
-    header('Location: /Admin_recettes.php');
+
+    header('Location: /admin_fiche_recette.php');
 }else {
     echo "Pseudo ou Password incorrect";
 }
@@ -50,7 +46,7 @@ if ($admin && password_verify($password, $admin['password'])) {
     <title>Connexion</title>
 </head>
 <body>
-<!-- <?php require_once'includes/header.php' ?> -->
+
 
 <div class="container" id="container">
 	<div class="form-container sign-in-container">
@@ -67,6 +63,6 @@ if ($admin && password_verify($password, $admin['password'])) {
 </div>	
 
 
-<!-- <?php require_once'includes/footer.php' ?> -->
+
 </body>
 </html>
