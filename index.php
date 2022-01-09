@@ -29,6 +29,11 @@ if ($admin && password_verify($password, $admin['password'])) {
 
 
 
+    if ($admin && password_verify($password, $admin['password'])) {
+        header('Location: /Admin_recettes.php');
+    } else {
+        echo "Pseudo ou Password incorrect";
+    }
 }
 ?>
 
@@ -37,6 +42,7 @@ if ($admin && password_verify($password, $admin['password'])) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -45,6 +51,7 @@ if ($admin && password_verify($password, $admin['password'])) {
     <link rel="stylesheet" href="/CSS/Header-Footer.css">
     <title>Connexion</title>
 </head>
+
 <body>
 
 
@@ -65,4 +72,5 @@ if ($admin && password_verify($password, $admin['password'])) {
 
 
 </body>
+
 </html>
