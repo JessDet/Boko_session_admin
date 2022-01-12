@@ -184,6 +184,8 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         // echo "</pre>";
         // die();
         $statementCreate->execute();
+        $id = $pdo->lastInsertId();
+        header('Location: /ingredients.php?id=' . $id);
     }
     // header('Location: /');
 }
