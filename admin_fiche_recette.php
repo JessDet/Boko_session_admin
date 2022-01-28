@@ -7,51 +7,25 @@ const ERR_URL = "L'image doit avoir une URL valide";
 
 $pdo = require_once './database.php';
 
-$statetementCreate = $pdo->prepare('
-INSERT INTO recettes(
-    titre,
-    date,
-    presentation,
-    duree,
-    difficulte,
-    budget,
-    preparation,
-    image1,
-    image2,
-    image3
-    ) VALUES (
-        :titre,
-        :date,
-        :presentation,
-        :duree,
-        :difficulte,
-        :budget,
-        :preparation,
-        :image1,
-        :image2,
-        :image3
-        )
+$stateReadAll = $pdo->prepare('SELECT * FROM recettes');
+$stateReadAll->execute();
+$selectAll = $stateReadAll->fetchAll();
+$recettes = [];
 
-');
+$stateReadCat = $pdo->prepare('SELECT * FROM categorie');
+$stateReadCat->execute();
+$selectCat = $stateReadCat->fetch();
+$idCat = [];
 
-$statementUpdate = $pdo->prepare('
-    UPDATE recette
-    SET
-    titre=:titre,
-    date=:date,
-    presentation=:presentation,
-    duree=:duree,
-    difficulte=:difficulte,
-    preparation=:preparation,
-    budget=:budget,
-    image1=:image1,
-    image2=:image2,
-    image3=:image3
-    WHERE idarticle=:id
 
-');
+// $statementRead = $pdo->prepare('SELECT * FROM categorie');
+// $statementRead->execute();
+// $categories = $statementRead->fetchAll();
 
-$statementRead = $pdo->prepare('SELECT * FROM recettes WHERE idrecette=:id' );
+// echo "<pre>";
+// var_dump($categories);
+// echo "</pre>";
+// die();
 
 $errors = [
     'titre' => '',
@@ -63,9 +37,8 @@ $errors = [
     'preparation' => '',
     'image1' => '',
     'image2' => '',
-    'image3' => '',
-    'name' => '',
-    ];
+    'image3' => ''
+];
 
 $_GET = filter_input_array(INPUT_GET, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $id = $_GET['id'] ?? '';
@@ -74,144 +47,156 @@ if ($id) {
     $statementRead->bindValue(':id', $id);
     $statementRead->execute();
     $recettes = $statementRead->fetch();
-        $titre = $recettes['titre'];
-        $date = $recettes['date'];
-        $presentation = $recettes['presentation'];
-        $durée = $recettes['duree'];
-        $difficulté = $recettes['difiiculte'];
-        $budget = $recettes['budget'];
-        $preparation = $recettes['preparation'];
-        $image1 = $recettes['image1'];
-        $image2 = $recettes['image2'];
-        $image3 = $recettes['image3'];
-        $name = $categorie['name'];
-    
+    $titre = $recettes['titre'];
+    $date = $recettes['date'];
+    $presentation = $recettes['presentation'];
+    $durée = $recettes['duree'];
+    $difficulté = $recettes['difiiculte'];
+    $budget = $recettes['budget'];
+    $preparation = $recettes['preparation'];
+    $img1 = $recettes['image1'];
+    $img2 = $recettes['image2'];
+    $img3 = $recettes['image3'];
+    $name = $categorie['categorie'];
 }
 
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
-    $_POST = filter_input_array(INPUT_POST, [
-        'title' => FILTER_SANITIZE_STRING,
+    $_input = filter_input_array(INPUT_POST, [
+        'titre' => FILTER_SANITIZE_STRING,
         'date' => FILTER_SANITIZE_NUMBER_FLOAT,
         'presentation' => [
             'filter' => FILTER_SANITIZE_STRING,
             'flags' => FILTER_FLAG_NO_ENCODE_QUOTES
         ],
-        'duree' => FILTER_SANITIZE_NUMBER_FLOAT,
         'difficulte' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-        'budget' => FILTER_SANITIZE_NUMBER_FLOAT,
+        'budget' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
         'preparation' => [
             'filter' => FILTER_SANITIZE_STRING,
             'flags' => FILTER_FLAG_NO_ENCODE_QUOTES
         ],
-        'image1' => FILTER_SANITIZE_URL,
-        'image2' => FILTER_SANITIZE_URL,
-        'image3' => FILTER_SANITIZE_URL,
-        'name' => FILTER_SANITIZE_STRING
-        ]);
+        'img1' => FILTER_SANITIZE_URL,
+        'img2' => FILTER_SANITIZE_URL,
+        'img3' => FILTER_SANITIZE_URL
+    ]);
 
 
-$titre = $_POST['titre'] ?? '';
-$date = $_POST['date'] ?? '';
-$presentation = $_POST['presentation'] ?? '';
-$durée = $_POST['duree'] ?? '';
-$difficulté = $_POST['difficulte'] ?? '';
-$budget = $_POST['budget'] ?? '';
-$preparation = $_POST['preparation'];
-$image1 = $_POST['image1'] ?? '';
-$image2 = $_POST['image2'] ?? '';
-$image3 = $_POST['image3'] ?? '';
-$name = $_POST['name'] ?? '';
+    $titre = $_input['titre'] ?? '';
+    $date = $_input['date'] ?? '';
+    $presentation = $_input['presentation'] ?? '';
+    $duree = $_POST['duree'] ?? '';
+    $difficulte = $_input['difficulte'] ?? '';
+    $budget = $_input['budget'] ?? '';
+    $preparation = $_input['preparation'];
+    $img1 = $_input['img1'] ?? '';
+    $img2 = $_input['img2'] ?? '';
+    $img3 = $_input['img3'] ?? '';
+    $idCat = $_POST['categorie'] ?? '';
 
 
-if (!$title) {
-    $errors['title'] = ERR_REQUIRED;
-} else if (mb_strlen($title) < 3) {
-    $errors['title'] = ERR_TITLE_SHORT;
-}
+    if (!$titre) {
+        $errors['title'] = ERR_REQUIRED;
+    } else if (mb_strlen($titre) < 3) {
+        $errors['title'] = ERR_TITLE_SHORT;
+    }
 
-if (!$date) {
-    $errors['date'] = ERR_REQUIRED;
-}
+    if (!$date) {
+        $errors['date'] = ERR_REQUIRED;
+    }
 
-if (!$presentation) {
-    $errors['presentation'] = ERR_REQUIRED;
-}
+    if (!$presentation) {
+        $errors['presentation'] = ERR_REQUIRED;
+    }
 
-if (!$durée) {
-    $errors['duree'] = ERR_REQUIRED;
-}
+    if (!$duree) {
+        $errors['duree'] = ERR_REQUIRED;
+    }
 
-if (!$difficulté) {
-    $errors['difficulte'] = ERR_REQUIRED;
-}
+    if (!$difficulte) {
+        $errors['difficulte'] = ERR_REQUIRED;
+    }
 
-if (!$budget) {
-    $errors['budget'] = ERR_REQUIRED;
-}
+    if (!$budget) {
+        $errors['budget'] = ERR_REQUIRED;
+    }
 
-if (!$preparation) {
-    $errors['preparation'] = ERR_REQUIRED;
-}
+    if (!$preparation) {
+        $errors['preparation'] = ERR_REQUIRED;
+    }
 
-if (!$image1) {
-    $errors['image1'] = ERR_REQUIRED;
-} else if (!filter_var($image1, FILTER_VALIDATE_URL)) {
-    $errors['image1'] = ERR_URL;
-}
+    if (!filter_var($img1, FILTER_VALIDATE_URL)) {
+        $errors['image1'] = ERR_URL;
+    }
 
- if (!filter_var($image2, FILTER_VALIDATE_URL)) {
-    $errors['image2'] = ERR_URL;
-}
-if (!filter_var($image3, FILTER_VALIDATE_URL)) {
-    $errors['image3'] = ERR_URL;
-}
+    if (!filter_var($img2, FILTER_VALIDATE_URL)) {
+        $errors['image2'] = ERR_URL;
+    }
+    if (!filter_var($img3, FILTER_VALIDATE_URL)) {
+        $errors['image3'] = ERR_URL;
+    }
 
-if (!$name) {
-    $errors['name'] = ERR_REQUIRED;
-}
+    // echo "<pre>";
+    // var_dump($errors);
+    // echo "</pre>";
+    // die();
+    if (empty(array_filter($errors, fn ($e) => $e !== ''))) {
+        $statementCreate = $pdo->prepare('
+        INSERT INTO recettes(
+            titre,
+            date,
+            presentation,
+            duree,
+            difficulte,
+            budget,
+            preparation,
+            img1,
+            img2,
+            img3,
+            idCat
+            ) VALUES (
+                :titre,
+                :date,
+                :presentation,
+                :duree,
+                :difficulte,
+                :budget,
+                :preparation,
+                :img1,
+                :img2,
+                :img3,
+                :idCat
+                )
+        ');
+        $statementCreate->bindValue(":titre", $titre);
+        $statementCreate->bindValue(":date", $date);
+        $statementCreate->bindValue(":presentation", $presentation);
+        $statementCreate->bindValue(":duree", $duree);
+        $statementCreate->bindValue(":budget", $budget);
+        $statementCreate->bindValue(":difficulte", $difficulte);
+        $statementCreate->bindValue(":preparation", $preparation);
+        $statementCreate->bindValue(":img1", $img1);
+        $statementCreate->bindValue(":img2", $img2);
+        $statementCreate->bindValue(":img3", $img3);
+        $statementCreate->bindValue(":idCat", $idCat);
 
-
-if(empty(array_filter($errors, fn ($e) => $e !== ''))){
-    $recettes['titre'] = $titre;
-    $recettes['date'] = $date;
-    $recettes['presentation'] = $presentation;
-    $recettes['duree'] = $duree;
-    $recettes['difficulte'] = $difficulte;
-    $recettes['budget'] = $budget;
-    $recettes['preparation'] = $preparation;
-    $recettes['image1'] = $image1;
-    $recettes['image2'] = $image2;
-    $recettes['image3'] = $image3;
-    $categorie['name'] = $name;
-    
-    $statementUpdate->bindValue(':titre', $recettes['titre']);
-    $statementUpdate->bindValue(':date', $recettes['date']);
-    $statementUpdate->bindValue(':presentation', $recettes['presentation']);
-    $statementUpdate->bindValue(':duree', $recettes['duree']);
-    $statementUpdate->bindValue(':difficulte', $recettes['difficulte']);
-    $statementUpdate->bindValue(':budget', $recettes['budget']);
-    $statementUpdate->bindValue(':preparation', $recettes['preparation']);
-    $statementUpdate->bindValue(':image1', $recettes['image1']);
-    $statementUpdate->bindValue(':image2', $recettes['image2']);
-    $statementUpdate->bindValue(':image3', $recettes['image3']); 
-    $statementUpdate->bindValue(':name', $categorie['name']); 
-    $statementUpdate->bindValue(':id', $id);
-    $statementUpdate->execute();
-}else {
-    $statementCreate->bindValue(':titre', $titre);
-    $statementCreate->bindValue(':date', $date);
-    $statementCreate->bindValue(':presentation', $presentation);
-    $statementCreate->bindValue(':duree', $duree);
-    $statementCreate->bindValue(':difficulte', $difficulte);
-    $statementCreate->bindValue(':budget', $budget);
-    $statementCreate->bindValue(':preparation', $preparation);
-    $statementCreate->bindValue(':image1', $image1);
-    $statementCreate->bindValue(':image2', $image2);
-    $statementCreate->bindValue(':image3', $image3);
-    $statementCreate->bindValue(':name', $name);
-    $statementCreate->execute();
-}
-header('Location: /');
+        // echo "<pre>";
+        // echo $titre . "<br>";
+        // echo $date . "<br>";
+        // echo $presentation . "<br>";
+        // echo $budget . "<br>";
+        // echo $duree . "<br>";
+        // echo $difficulte . "<br>";
+        // echo $preparation . "<br>";
+        // echo $img1 . "<br>";
+        // echo $img2 . "<br>";
+        // echo $img3 . "<br>";
+        // echo $idCat . "<br>";
+        // echo "</pre>";
+        // die();
+        $statementCreate->execute();
+        $id = $pdo->lastInsertId();
+        header('Location: /ingredients.php?id=' . $id);
+    }
+    // header('Location: /');
 }
 
 
@@ -220,112 +205,150 @@ header('Location: /');
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="CSS/Admin.css">
+    <link rel="stylesheet" href="CSS/Admin_recette.css">
     <title>Admin</title>
 </head>
+
 <body>
 
-  <h1>ESPACE ADMIN</h1>
+    <h1>ESPACE ADMIN</h1>
 
-  <div class="container">
-      <div class="form_container">
-          <div class="form_container_recipe">
-            <form action="/Admin_recettes.php" <?= $id ? "id=$id" : '' ?> methode="POST">
-                <div class="form_control">
-                    <label for="title">Titre</label>
-                    <input type="text" name="titre" id="title" placeholder="title" value=" <?= $titre ?? '' ?>">
-                    <p class="text_error"><?= $errors['titre'] ?></p>
-                </div>
+    <div class="container">
+        <div class="form_container">
+            <div class="form_container_recipe">
+                <form action="/admin_fiche_recette.php" <?= $id ? "id=$id" : '' ?> method="POST">
+                    <div class="form_control">
+                        <label for="title">Titre</label>
+                        <input type="text" name="titre" id="title" placeholder="title" value=" <?= $titre ?? '' ?>">
+                        <p class="text_error"><?= $errors['titre'] ?></p>
+                    </div>
 
-                <div class="form_control">
-                    <label for="title">Date</label>
-                    <input type="date" name="date" id="date" placeholder="date" value=" <?= $date ?? '' ?>">
-                    <p class="text_error"><?= $errors['date'] ?></p>
-                </div>
+                    <div class="form_control">
+                        <label for="title">Date</label>
+                        <input type="date" name="date" id="date" placeholder="date" value=" <?= $date ?? '' ?>">
+                        <p class="text_error"><?= $errors['date'] ?></p>
+                    </div>
 
-                <div class="form_control">
-                    <label for="title">Presentation</label>
-                    <input type="text" name="presentation" id="presentation" placeholder="presentation" value="<?= $presentation ?? '' ?>">
-                    <p class="text_error"<?= $errors['presentation'] ?>></p>
-                </div>
+                    <div class="form_control">
+                        <textarea cols="60" rows="10" name="presentation" id="presentation" placeholder="presentation" value="<?= $presentation ?? '' ?>"></textarea>
+                        <p class="text_error" <?= $errors['presentation'] ?>></p>
+                    </div>
+<div class="contraintes">
+                    <div class="form_control">
+                        <label for="duree">Durée</label>
+                        <input type="number" min="0" value="0" name="duree" id="duree" placeholder="duree">
+                        <p class="text_error"><?= $errors['duree'] ?></p>
+                    </div>
 
-                <div class="form_control">
-                    <label for="duree">Durée</label>
-                    <input type="duree" name="duree" id="duree" placeholder="duree" value=" <?= $duree ?? '' ?>">
-                    <p class="text_error"><?= $errors['duree'] ?></p>
-                </div>
+                    <div class="form_control">
+                        <label for="difficulte">Difficulté</label>
+                        <select name="difficulte" id="difficulte">
+                            <option value="facile">Facile</option>
+                            <option value="moyen">Moyen</option>
+                            <option value="difficile">Difficile</option>
+                        </select>
+                        <p class="text_error"><?= $errors['difficulte'] ?></p>
+                    </div>
 
-                <div class="form_control">
-                    <label for="difficulte">Difficulté</label>
-                    <input type="text" name="difficulte" id="difficulte" placeholder="difficulte" value=" <?= $difficulte ?? '' ?>">
-                    <p class="text_error"><?= $errors['difficulte'] ?></p>
-                </div>
+                    <div class="form_control">
+                        <label for="budget">Budget</label>
+                        <select name="budget" id="budget">
+                            <option value="cher">cher</option>
+                            <option value="moyen">moyen</option>
+                            <option value="peu élevé">peu élevé</option>
+                        </select>
+                        <p class="text_error"><?= $errors['budget'] ?></p>
+                    </div>
+</div>
+                    <div class="form_control">
+                        <textarea cols="60" rows="10" name="preparation" id="preparation" placeholder="preparation"></textarea>
+                        <p class=" text_error"><?= $errors['preparation'] ?></p>
+                    </div>
 
-                <div class="form_control">
-                    <label for="budget">Budget</label>
-                    <input type="text" name="budget" id="budget" placeholder="budget" value=" <?= $budget ?? '' ?>">
-                    <p class="text_error"><?= $errors['budget'] ?></p>
-                </div>
-
-                <div class="form_control">
-                    <label for="preparation">Preparation</label>
-                    <input type="text" name="preparation" id="preparation" placeholder="preparation" value=" <?= $preparation ?? '' ?>">
-                    <p class="text_error"><?= $errors['preparation'] ?></p>
-                </div>
-
-                <div class="form_control">
-                    <label for="title">Image1</label>
-                    <input type="text" name="image1" id="image1" placeholder="image1" value="<?= $image1 ?? '' ?>">
-                    <p class="text_error"><?= $errors['image1'] ?></p>
-                </div>
-                <div class="form_control">
-                    <label for="title">Image2</label>
-                    <input type="text" name="image2" id="image2" placeholder="image2" value="<?= $image2 ?? '' ?>">
-                    <p class="text_error"><?= $errors['image2'] ?></p>
-                </div>
-                <div class="form_control">
-                    <label for="title">Image3</label>
-                    <input type="text" name="image3" id="image3" placeholder="image3" value="<?= $image3 ?? '' ?>">
-                    <p class="text_error"><?= $errors['image3'] ?></p>
-                </div>
-                       
-            
-            </form>
-          </div>
-
-            <div class="form_container_ingredients">
-                <form action="/Admin_recettes.php" <?= $id ? "idCat=$id" : '' ?> methode="POST">
+                    <div class="form_control">
+                        <label for="title">Image1</label>
+                        <input type="text" name="img1" id="img1" placeholder="img1" value="<?= $img1 ?? '' ?>">
+                        <p class="text_error"><?= $errors['image1'] ?></p>
+                    </div>
+                    <div class="form_control">
+                        <label for="title">Image2</label>
+                        <input type="text" name="img2" id="img2" placeholder="img2" value="<?= $img2 ?? '' ?>">
+                        <p class="text_error"><?= $errors['image2'] ?></p>
+                    </div>
+                    <div class="form_control">
+                        <label for="title">Image3</label>
+                        <input type="text" name="img3" id="img3" placeholder="img3" value="<?= $img3 ?? '' ?>">
+                        <p class="text_error"><?= $errors['image3'] ?></p>
+                    </div>
                     <div class="form-control">
                         <label for="category">Catégorie</label>
-                        <select name="categorie" id="categorie">
-                        <option <?= !$name || $name ==="cuisine" ? 'selected' : '' ?> value="cuisine">Cuisine</option>
-                        <option <?= $name ==="cosmetique" ? 'selected' : '' ?> value="cosmetique">Cosmetiques</option>
-                        <option  <?= $name ==="maison" ? 'selected' : '' ?> value="maison">Maison</option>
+                        <select name="categorie" id="category">
+                            <option value="2">Cosmetiques</option>
+                            <option value="3">Maison</option>
+                            <option value="1">Cuisine</option>
                         </select>
-                        <p class="text-error"><?= $errors['name']?></p>
                     </div>
-                </form>
-            </div>
-
-
-
-
-
-
-
-      </div>
-      <div class="form-action">
                     <a href="/" class="btn btn-secondary" type="button">Annuler</a>
                     <button class="btn btn-primary"><?= $id ? 'Modifier' : 'Sauvegarder' ?></button>
-                </div>
+                </form>
+            </div>
+        </div>
 
-  </div>
+    </div>
 
+    <!-- TABLEAU -->
+    <div class="container-tab">
+        <ul class="responsive-table">
+            <li class="table-header">
+                <div class="col col-act">Action</div>
+                <div class="col col-1">ID</div>
+                <div class="col col-2">Titre</div>
+                <div class="col col-3">Date</div>
+                <div class="col col-4">Présentation</div>
+                <div class="col col-5">Durée</div>
+                <div class="col col-6">Difficulté</div>
+                <div class="col col-7">Budget</div>
+                <div class="col col-8">Préparation</div>
+                <div class="col col-9">Image1</div>
+                <div class="col col-10">Image2</div>
+                <div class="col col-11">Image3</div>
+                <div class="col col-12">Categorie</div>
+            </li>
+        </ul>
+        
+            <?php foreach ($selectAll as $recettes): ?>
+                <!-- <?php foreach ($selectCat as $idCat): ?> -->
+                    <li class="table-row">
 
+                        <div class="colo col-act">
+                            <a href="./update_fiche_recette.php?edit=<?= $b['id'] ?>" name="id" type="button" class="UpDelete">MODIFIER</a>
+                            <a href="./delete_fiche_recette.php?del=<?= $b['id'] ?>" name="id" type="button" class="UpDelete">SUPPRIMER</a>
+                        </div>
+
+                    <div class="colo col-1" data-label="Recette Id"><?= $recettes['idrecette'] ?></div>
+                    <div class="colo col-2" data-label="titre"><?= $recettes['titre'] ?></div>
+                    <div class="colo col-3" data-label="date"><?= $recettes['date'] ?></div>
+                    <div class="colo col-4" data-label="presentation"><?= $recettes['presentation'] ?></div>
+                    <div class="colo col-5" data-label="duree"><?= $recettes['duree'] ?></div>
+                    <div class="colo col-6" data-label="difficultes"><?= $recettes['difficulte'] ?></div>
+                    <div class="colo col-7" data-label="budget"><?= $recettes['budget'] ?></div>
+                    <div class="colo col-8" data-label="preparation"><?= $recettes['preparation']?></div>
+                    <div class="colo col-9" data-label="img1"><?= $recettes['img1'] ?></div>
+                    <div class="colo col-10" data-label="img2"><?= $recettes['img2'] ?></div>
+                    <div class="colo col-11" data-label="img3"><?= $recettes['img3'] ?></div>
+                    <div class="colo col-12" data-label="name"><?= $categorie['idCat'] ?></div>
+                    
+                </li>
+            <?php endforeach; ?>
+            <!-- <?php endforeach; ?> -->
+
+     </div>
 
 </body>
+
 </html>
