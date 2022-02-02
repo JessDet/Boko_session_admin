@@ -56,22 +56,16 @@ form {
 }
 
 /* -------------------------tableau  */
-  .container-tab{
+  /* .container-tab{ */
     /* max-width: 100%; */
     /* margin-left: auto; */
     /* margin-right: auto; */
     /* padding-left: 10px; */
-    padding-right: 10px;
-    width: 2650px;
-  }
-    .responsive-table li {
-      border-radius: 3px;
-      padding: 25px 30px;
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 25px;
-    }
-    .table-header {
+    /* padding-right: 10px;
+    width: 2650px; */
+  /* } */
+   
+    .table {
       background-color: #95B2A3;
       font-size: 14px;
       text-transform: uppercase;
@@ -79,6 +73,13 @@ form {
       display: flex;
       text-align: center;
       width: 2530px;
+    }
+    .tableau {
+      border-radius: 3px;
+      padding: 25px 30px;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 25px;
     }
 
     .colo{

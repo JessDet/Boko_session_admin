@@ -10,17 +10,7 @@ $pdo = require_once './database.php';
 $stateReadAll = $pdo->prepare('SELECT * FROM recettes');
 $stateReadAll->execute();
 $selectAll = $stateReadAll->fetchAll();
-$recettes = [];
 
-$stateReadCat = $pdo->prepare('SELECT * FROM categorie');
-$stateReadCat->execute();
-$selectCat = $stateReadCat->fetch();
-$idCat = [];
-
-
-// $statementRead = $pdo->prepare('SELECT * FROM categorie');
-// $statementRead->execute();
-// $categories = $statementRead->fetchAll();
 
 // echo "<pre>";
 // var_dump($categories);
@@ -51,7 +41,7 @@ if ($id) {
     $date = $recettes['date'];
     $presentation = $recettes['presentation'];
     $durée = $recettes['duree'];
-    $difficulté = $recettes['difiiculte'];
+    $difficulté = $recettes['difficulte'];
     $budget = $recettes['budget'];
     $preparation = $recettes['preparation'];
     $img1 = $recettes['image1'];
@@ -86,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $duree = $_POST['duree'] ?? '';
     $difficulte = $_input['difficulte'] ?? '';
     $budget = $_input['budget'] ?? '';
-    $preparation = $_input['preparation'];
+    $preparation = $_input['preparation'] ?? '';
     $img1 = $_input['img1'] ?? '';
     $img2 = $_input['img2'] ?? '';
     $img3 = $_input['img3'] ?? '';
@@ -196,7 +186,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         $id = $pdo->lastInsertId();
         header('Location: /ingredients.php?id=' . $id);
     }
-    // header('Location: /');
+    
 }
 
 
@@ -215,6 +205,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 </head>
 
 <body>
+<a href="/Admin_loggout.php/"><img class="logout_icon" src="icons/logout_90894.png" alt="Se déconnecter" width="32px"></a>
 
     <h1>ESPACE ADMIN</h1>
 
@@ -238,6 +229,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                         <textarea cols="60" rows="10" name="presentation" id="presentation" placeholder="presentation" value="<?= $presentation ?? '' ?>"></textarea>
                         <p class="text_error" <?= $errors['presentation'] ?>></p>
                     </div>
+
 <div class="contraintes">
                     <div class="form_control">
                         <label for="duree">Durée</label>
@@ -265,11 +257,12 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                         <p class="text_error"><?= $errors['budget'] ?></p>
                     </div>
 </div>
+
                     <div class="form_control">
                         <textarea cols="60" rows="10" name="preparation" id="preparation" placeholder="preparation"></textarea>
                         <p class=" text_error"><?= $errors['preparation'] ?></p>
                     </div>
-
+<div class="images">
                     <div class="form_control">
                         <label for="title">Image1</label>
                         <input type="text" name="img1" id="img1" placeholder="img1" value="<?= $img1 ?? '' ?>">
@@ -293,6 +286,8 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                             <option value="1">Cuisine</option>
                         </select>
                     </div>
+</div>
+
                     <a href="/" class="btn btn-secondary" type="button">Annuler</a>
                     <button class="btn btn-primary"><?= $id ? 'Modifier' : 'Sauvegarder' ?></button>
                 </form>
@@ -301,53 +296,55 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
     </div>
 
-    <!-- TABLEAU -->
-    <div class="container-tab">
-        <ul class="responsive-table">
-            <li class="table-header">
-                <div class="col col-act">Action</div>
-                <div class="col col-1">ID</div>
-                <div class="col col-2">Titre</div>
-                <div class="col col-3">Date</div>
-                <div class="col col-4">Présentation</div>
-                <div class="col col-5">Durée</div>
-                <div class="col col-6">Difficulté</div>
-                <div class="col col-7">Budget</div>
-                <div class="col col-8">Préparation</div>
-                <div class="col col-9">Image1</div>
-                <div class="col col-10">Image2</div>
-                <div class="col col-11">Image3</div>
-                <div class="col col-12">Categorie</div>
-            </li>
-        </ul>
+    <!-- ---------------------------------TABLEAU ---------------------------------------->
+
+    <!-- <div class="container-tab"> -->
+        <table class="table table-hover table-fixed">
+            <thead class="tableau">
+            <tr>
+                <th class="col col-act">Action>#</th>
+                <th class="col col-1">ID</th>
+                <th class="col col-2">Titre</th>
+                <th class="col col-3">Date</th>
+                <th class="col col-4">Présentation</th>
+                <th class="col col-5">Durée</th>
+                <th class="col col-6">Difficulté</th>
+                <th class="col col-7">Budget</th>
+                <th class="col col-8">Préparation</th>
+                <th class="col col-9">Image1</th>
+                <th class="col col-10">Image2</th>
+                <th class="col col-11">Image3</th>
+                <th class="col col-12">Categorie</th>
+            </tr>
+            </thead>
+
         
             <?php foreach ($selectAll as $recettes): ?>
-                <!-- <?php foreach ($selectCat as $idCat): ?> -->
-                    <li class="table-row">
+                
+                    <tr class="table-row">
 
-                        <div class="colo col-act">
-                            <a href="./update_fiche_recette.php?edit=<?= $b['id'] ?>" name="id" type="button" class="UpDelete">MODIFIER</a>
-                            <a href="./delete_fiche_recette.php?del=<?= $b['id'] ?>" name="id" type="button" class="UpDelete">SUPPRIMER</a>
-                        </div>
+                        <td class="colo col-act">
+                            <a href="./update_fiche_recette.php?edit=<?= $recettes['idrecette'] ?>" name="id" type="button" class="UpDelete">MODIFIER</a>
+                        </td>
 
-                    <div class="colo col-1" data-label="Recette Id"><?= $recettes['idrecette'] ?></div>
-                    <div class="colo col-2" data-label="titre"><?= $recettes['titre'] ?></div>
-                    <div class="colo col-3" data-label="date"><?= $recettes['date'] ?></div>
-                    <div class="colo col-4" data-label="presentation"><?= $recettes['presentation'] ?></div>
-                    <div class="colo col-5" data-label="duree"><?= $recettes['duree'] ?></div>
-                    <div class="colo col-6" data-label="difficultes"><?= $recettes['difficulte'] ?></div>
-                    <div class="colo col-7" data-label="budget"><?= $recettes['budget'] ?></div>
-                    <div class="colo col-8" data-label="preparation"><?= $recettes['preparation']?></div>
-                    <div class="colo col-9" data-label="img1"><?= $recettes['img1'] ?></div>
-                    <div class="colo col-10" data-label="img2"><?= $recettes['img2'] ?></div>
-                    <div class="colo col-11" data-label="img3"><?= $recettes['img3'] ?></div>
-                    <div class="colo col-12" data-label="name"><?= $categorie['idCat'] ?></div>
+                    <td class="colo col-1" ><?= $recettes['idrecette'] ?></td>
+                    <td class="colo col-2" ><?= $recettes['titre'] ?></td>
+                    <td class="colo col-3" ><?= $recettes['date'] ?></td>
+                    <td class="colo col-4" ><?= $recettes['presentation'] ?></td>
+                    <td class="colo col-5" ><?= $recettes['duree'] ?></td>
+                    <td class="colo col-6" ><?= $recettes['difficulte'] ?></td>
+                    <td class="colo col-7" ><?= $recettes['budget'] ?></td>
+                    <td class="colo col-8" ><?= $recettes['preparation']?></td>
+                    <td class="colo col-9" ><?= $recettes['img1'] ?></td>
+                    <td class="colo col-10" ><?= $recettes['img2'] ?></td>
+                    <td class="colo col-11" ><?= $recettes['img3'] ?></td>
+                    <td class="colo col-12" ><?= $categorie['idCat'] ?></td>
                     
-                </li>
+                </tr>
             <?php endforeach; ?>
-            <!-- <?php endforeach; ?> -->
 
-     </div>
+
+     <!-- </div> -->
 
 </body>
 

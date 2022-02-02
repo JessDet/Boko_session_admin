@@ -1,5 +1,11 @@
 <?php
 
+$pdo = require './database.php';
+
+
+require './adminLoggedIn.php';
+$admin = adminLoggedIn();
+
 $id = $_GET['id'] ?? '';
 setcookie('idrecette', $id, time() + 60 * 60, '', '', false, true);
 
@@ -7,7 +13,7 @@ setcookie('idrecette', $id, time() + 60 * 60, '', '', false, true);
 //     header('Location: /');
 // }
 
-$pdo = require_once './database.php';
+
 
 $stateIngredient = $pdo->prepare('INSERT INTO ingredients VALUES (
     DEFAULT,
@@ -153,7 +159,6 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                                     $stateRecetteIngredient->bindValue(':idIng', $id8);
                                     $stateRecetteIngredient->bindValue(':idrecette', $id);
                                     $stateRecetteIngredient->execute();
-
                                 }
                             }
                         }

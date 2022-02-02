@@ -1,0 +1,49 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: lightgrey;
+    min-height: 100vh;
+
+}
+
+button {
+    border: 0;
+    border-radius: 10px;
+    padding: 0.6rem 1.2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    /* transition: box-shadow 0.2s; */
+    background-color: lightseagreen;
+    color: white;
+}
+
+
+
+h1 {
+    text-align: center;
+}
+
+.btn.btn-primary {
+    margin-bottom: 20px;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 500px;
+    height: 800px;
+    border: 1px solid black;
+    border-radius: 20px;
+    margin-bottom: 30px;
+}
+
+

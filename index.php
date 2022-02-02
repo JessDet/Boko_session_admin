@@ -1,6 +1,13 @@
 <?php
 
-$pdo = require_once './database.php';
+$pdo = require_once'./database.php';
+
+
+
+require './adminLoggedIn.php';
+$admin = adminLoggedIn();
+
+
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -21,7 +28,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($admin && password_verify($password, $admin['password'])) {
-
+            $statementSessionadmin = $pdo->prepare('INSERT INTO sessionadmin VALUES (default, :idadmin)');
+            $statementSessionadmin->bindValue(':idadmin', $admin['idadmin']);
+            $statementSessionadmin->execute();
+            $sessionadminId = $pdo->lastInsertId();
+        setcookie('sessionadmin', $sessionadminId, time() + 60 * 3, '', '', false, true);
         header('Location: /admin_fiche_recette.php');
     } else {
         echo "Pseudo ou Password incorrect";
@@ -44,9 +55,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Connexion</title>
 </head>
 
-<header>
+<!-- <header>
     <img class="logo" src="/IMG/BOKO détouré.png" alt="BOKO" >
-</header>
+</header> -->
 
 <body>
 <img class="feuillage" src="/IMG/feuillage.jpg" alt="">
